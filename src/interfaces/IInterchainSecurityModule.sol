@@ -31,15 +31,9 @@ interface IInterchainSecurityModule {
      * @param _message Manifold Finance AVS encoded interchain message
      * @return True if the message was verified
      */
-    function verify(
-        bytes calldata _metadata,
-        bytes calldata _message
-    ) external returns (bool);
+    function verify(bytes calldata _metadata, bytes calldata _message) external returns (bool);
 }
 
 interface ISpecifiesInterchainSecurityModule {
-    function interchainSecurityModule()
-        external
-        view
-        returns (IInterchainSecurityModule);
+    function interchainSecurityModule() external view returns (IInterchainSecurityModule);
 }

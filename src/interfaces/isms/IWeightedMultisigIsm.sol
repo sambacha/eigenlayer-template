@@ -1,7 +1,6 @@
 // SPDX-License-Identifier: MIT OR Apache-2.0
 pragma solidity >=0.6.11;
 
-
 import {IInterchainSecurityModule} from "../IInterchainSecurityModule.sol";
 
 interface IStaticWeightedMultisigIsm is IInterchainSecurityModule {
@@ -19,9 +18,7 @@ interface IStaticWeightedMultisigIsm is IInterchainSecurityModule {
      * @return validators The validators and their weights
      * @return thresholdWeight The threshold weight required to pass verification
      */
-    function validatorsAndThresholdWeight(
-        bytes calldata _message
-    )
+    function validatorsAndThresholdWeight(bytes calldata _message)
         external
         view
         returns (ValidatorInfo[] memory validators, uint96 thresholdWeight);

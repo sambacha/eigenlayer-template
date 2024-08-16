@@ -8,8 +8,5 @@ interface IRouter {
 
     function enrollRemoteRouter(uint32 _domain, bytes32 _router) external;
 
-    function enrollRemoteRouters(
-        uint32[] calldata _domains,
-        bytes32[] calldata _routers
-    ) external;
+    function enrollRemoteRouters(uint32[] calldata _domains, bytes32[] calldata _routers) external;
 }

@@ -15,16 +15,8 @@ interface IMessageDispatcher {
      * @param data Data that was dispatched
      */
     event MessageDispatched(
-        bytes32 indexed messageId,
-        address indexed from,
-        uint256 indexed toChainId,
-        address to,
-        bytes data
+        bytes32 indexed messageId, address indexed from, uint256 indexed toChainId, address to, bytes data
     );
 
-    function dispatchMessage(
-        uint256 toChainId,
-        address to,
-        bytes calldata data
-    ) external returns (bytes32);
+    function dispatchMessage(uint256 toChainId, address to, bytes calldata data) external returns (bytes32);
 }
