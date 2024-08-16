@@ -3,7 +3,7 @@ pragma solidity >=0.8.0;
 
 import "./ISignatureUtils.sol";
 
-/// part of mock interfaces for vendoring necessary Eigenlayer contracts for the Manifold Finance AVS
+/// part of mock interfaces for vendoring necessary Eigenlayer contracts for the hyperlane AVS
 /// @author Layr Labs, Inc.
 interface IAVSDirectory is ISignatureUtils {
     enum OperatorAVSRegistrationStatus {
