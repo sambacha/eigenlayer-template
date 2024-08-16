@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: Apache-2.0
 pragma solidity >=0.8.0;
 
-import {HypERC20Collateral} from "../HypERC20Collateral.sol";
+import {ManifoldERC20Collateral} from "../ManifoldERC20Collateral.sol";
 import {FastTokenRouter} from "../libs/FastTokenRouter.sol";
 import {TokenRouter} from "../libs/TokenRouter.sol";
 
@@ -12,7 +12,7 @@ import {SafeERC20} from "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol
  * @title ERC20 Token Collateral that wraps an existing ERC20 with remote transfer functionality.
  * @author Abacus Works
  */
-contract FastHypERC20Collateral is FastTokenRouter, HypERC20Collateral {
+contract FastManifoldERC20Collateral is FastTokenRouter, ManifoldERC20Collateral {
     using SafeERC20 for IERC20;
 
     /**
@@ -22,7 +22,7 @@ contract FastHypERC20Collateral is FastTokenRouter, HypERC20Collateral {
     constructor(
         address erc20,
         address _mailbox
-    ) HypERC20Collateral(erc20, _mailbox) {}
+    ) ManifoldERC20Collateral(erc20, _mailbox) {}
 
     /**
      * @dev delegates transfer logic to `_transferTo`.

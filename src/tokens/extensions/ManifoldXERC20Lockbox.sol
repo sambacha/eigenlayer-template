@@ -3,9 +3,9 @@ pragma solidity >=0.8.0;
 
 import {IXERC20Lockbox} from "../interfaces/IXERC20Lockbox.sol";
 import {IXERC20, IERC20} from "../interfaces/IXERC20.sol";
-import {HypERC20Collateral} from "../HypERC20Collateral.sol";
+import {ManifoldERC20Collateral} from "../ManifoldERC20Collateral.sol";
 
-contract HypXERC20Lockbox is HypERC20Collateral {
+contract ManifoldXERC20Lockbox is ManifoldERC20Collateral {
     uint256 constant MAX_INT = 2 ** 256 - 1;
 
     IXERC20Lockbox public immutable lockbox;
@@ -14,7 +14,7 @@ contract HypXERC20Lockbox is HypERC20Collateral {
     constructor(
         address _lockbox,
         address _mailbox
-    ) HypERC20Collateral(address(IXERC20Lockbox(_lockbox).ERC20()), _mailbox) {
+    ) ManifoldERC20Collateral(address(IXERC20Lockbox(_lockbox).ERC20()), _mailbox) {
         lockbox = IXERC20Lockbox(_lockbox);
         xERC20 = lockbox.XERC20();
         approveLockbox();

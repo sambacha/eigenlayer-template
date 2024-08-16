@@ -3,14 +3,14 @@ pragma solidity >=0.8.0;
 
 import "@openzeppelin/contracts/token/ERC20/extensions/ERC4626.sol";
 import {TokenMessage} from "../libs/TokenMessage.sol";
-import {HypERC20Collateral} from "../HypERC20Collateral.sol";
+import {ManifoldERC20Collateral} from "../ManifoldERC20Collateral.sol";
 import {TypeCasts} from "../../libs/TypeCasts.sol";
 
 /**
  * @title ERC4626 Token Collateral with deposits collateral to a vault
  * @author Abacus Works
  */
-contract HypERC4626Collateral is HypERC20Collateral {
+contract ManifoldERC4626Collateral is ManifoldERC20Collateral {
     using TypeCasts for address;
     using TokenMessage for bytes;
     using Math for uint256;
@@ -24,7 +24,7 @@ contract HypERC4626Collateral is HypERC20Collateral {
     constructor(
         ERC4626 _vault,
         address _mailbox
-    ) HypERC20Collateral(_vault.asset(), _mailbox) {
+    ) ManifoldERC20Collateral(_vault.asset(), _mailbox) {
         vault = _vault;
     }
 
@@ -82,7 +82,7 @@ contract HypERC4626Collateral is HypERC20Collateral {
 
     /**
      * @dev Transfers `_amount` of `wrappedToken` from this contract to `_recipient`, and withdraws from vault
-     * @inheritdoc HypERC20Collateral
+     * @inheritdoc ManifoldERC20Collateral
      */
     function _transferTo(
         address _recipient,

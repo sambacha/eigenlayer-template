@@ -2,14 +2,14 @@
 pragma solidity >=0.8.0;
 
 import {IFiatToken} from "../interfaces/IFiatToken.sol";
-import {HypERC20Collateral} from "../HypERC20Collateral.sol";
+import {ManifoldERC20Collateral} from "../ManifoldERC20Collateral.sol";
 
 // see https://github.com/circlefin/stablecoin-evm/blob/master/doc/tokendesign.md#issuing-and-destroying-tokens
-contract HypFiatToken is HypERC20Collateral {
+contract ManifoldFiatToken is ManifoldERC20Collateral {
     constructor(
         address _fiatToken,
         address _mailbox
-    ) HypERC20Collateral(_fiatToken, _mailbox) {}
+    ) ManifoldERC20Collateral(_fiatToken, _mailbox) {}
 
     function _transferFromSender(
         uint256 _amount

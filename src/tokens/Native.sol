@@ -10,7 +10,7 @@ import {Address} from "@openzeppelin/contracts/utils/Address.sol";
  * @author Abacus Works
  * @dev Supply on each chain is not constant but the aggregate supply across all chains is.
  */
-contract HypNative is TokenRouter {
+contract ManifoldNative is TokenRouter {
     /**
      * @dev Emitted when native tokens are donated to the contract.
      * @param sender The address of the sender.

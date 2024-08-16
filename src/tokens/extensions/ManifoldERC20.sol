@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: Apache-2.0
 pragma solidity >=0.8.0;
 
-import {HypERC20} from "../HypERC20.sol";
+import {ManifoldERC20} from "../ManifoldERC20.sol";
 import {FastTokenRouter} from "../libs/FastTokenRouter.sol";
 import {TokenRouter} from "../libs/TokenRouter.sol";
 
@@ -12,11 +12,11 @@ import {ERC20Upgradeable} from "@openzeppelin/contracts-upgradeable/token/ERC20/
  * @author Abacus Works
  * @dev Supply on each chain is not constant but the aggregate supply across all chains is.
  */
-contract FastHypERC20 is FastTokenRouter, HypERC20 {
+contract FastManifoldERC20 is FastTokenRouter, ManifoldERC20 {
     constructor(
         uint8 __decimals,
         address _mailbox
-    ) HypERC20(__decimals, _mailbox) {}
+    ) ManifoldERC20(__decimals, _mailbox) {}
 
     /**
      * @dev delegates transfer logic to `_transferTo`.
@@ -54,7 +54,7 @@ contract FastHypERC20 is FastTokenRouter, HypERC20 {
 
     function balanceOf(
         address _account
-    ) public view virtual override(HypERC20, TokenRouter) returns (uint256) {
+    ) public view virtual override(ManifoldERC20, TokenRouter) returns (uint256) {
         return ERC20Upgradeable.balanceOf(_account);
     }
 }

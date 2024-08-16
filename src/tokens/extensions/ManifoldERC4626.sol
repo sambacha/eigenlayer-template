@@ -2,7 +2,7 @@
 pragma solidity >=0.8.0;
 
 import {IXERC20} from "../interfaces/IXERC20.sol";
-import {HypERC20} from "../HypERC20.sol";
+import {ManifoldERC20} from "../ManifoldERC20.sol";
 import {Math} from "@openzeppelin/contracts/utils/math/Math.sol";
 import {Message} from "../../libs/Message.sol";
 import {TokenMessage} from "../libs/TokenMessage.sol";
@@ -12,7 +12,7 @@ import {TokenRouter} from "../libs/TokenRouter.sol";
  * @title ERC20 Rebasing Token
  * @author Abacus Works
  */
-contract HypERC4626 is HypERC20 {
+contract ManifoldERC4626 is ManifoldERC20 {
     using Math for uint256;
     using Message for bytes;
     using TokenMessage for bytes;
@@ -25,7 +25,7 @@ contract HypERC4626 is HypERC20 {
         uint8 _decimals,
         address _mailbox,
         uint32 _collateralDomain
-    ) HypERC20(_decimals, _mailbox) {
+    ) ManifoldERC20(_decimals, _mailbox) {
         collateralDomain = _collateralDomain;
         exchangeRate = 1e10;
         _disableInitializers();

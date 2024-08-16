@@ -2,13 +2,13 @@
 pragma solidity >=0.8.0;
 
 import "@openzeppelin/contracts/token/ERC20/extensions/ERC4626.sol";
-import {HypERC20Collateral} from "../HypERC20Collateral.sol";
+import {ManifoldERC20Collateral} from "../ManifoldERC20Collateral.sol";
 
 /**
  * @title ERC20 Token Collateral with deposits collateral to a vault, the yield goes to the owner
  * @author ltyu
  */
-contract HypERC4626OwnerCollateral is HypERC20Collateral {
+contract ManifoldERC4626OwnerCollateral is ManifoldERC20Collateral {
     // Address of the ERC4626 compatible vault
     ERC4626 public immutable vault;
 
@@ -20,7 +20,7 @@ contract HypERC4626OwnerCollateral is HypERC20Collateral {
     constructor(
         ERC4626 _vault,
         address _mailbox
-    ) HypERC20Collateral(_vault.asset(), _mailbox) {
+    ) ManifoldERC20Collateral(_vault.asset(), _mailbox) {
         vault = _vault;
     }
 
@@ -35,7 +35,7 @@ contract HypERC4626OwnerCollateral is HypERC20Collateral {
 
     /**
      * @dev Transfers `_amount` of `wrappedToken` from `msg.sender` to this contract, and deposit into vault
-     * @inheritdoc HypERC20Collateral
+     * @inheritdoc ManifoldERC20Collateral
      */
     function _transferFromSender(
         uint256 _amount
@@ -55,7 +55,7 @@ contract HypERC4626OwnerCollateral is HypERC20Collateral {
 
     /**
      * @dev Transfers `_amount` of `wrappedToken` from this contract to `_recipient`, and withdraws from vault
-     * @inheritdoc HypERC20Collateral
+     * @inheritdoc ManifoldERC20Collateral
      */
     function _transferTo(
         address _recipient,
