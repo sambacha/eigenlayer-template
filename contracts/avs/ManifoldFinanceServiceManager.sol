@@ -8,7 +8,7 @@ import {IRemoteChallenger} from "../interfaces/avs/IRemoteChallenger.sol";
 import {ISlasher} from "../interfaces/avs/vendored/ISlasher.sol";
 import {ECDSAServiceManagerBase} from "./ECDSAServiceManagerBase.sol";
 
-contract HyperlaneServiceManager is ECDSAServiceManagerBase {
+contract ManifoldServiceManager is ECDSAServiceManagerBase {
     // ============ Libraries ============
 
     using EnumerableMapEnrollment for EnumerableMapEnrollment.AddressToEnrollmentMap;
@@ -70,7 +70,7 @@ contract HyperlaneServiceManager is ECDSAServiceManagerBase {
         (bool exists, ) = enrolledChallengers[operator].tryGet(msg.sender);
         require(
             exists,
-            "HyperlaneServiceManager: Operator not enrolled in challenger"
+            "ManifoldServiceManager: Operator not enrolled in challenger"
         );
         _;
     }
@@ -92,7 +92,7 @@ contract HyperlaneServiceManager is ECDSAServiceManagerBase {
     {}
 
     /**
-     * @notice Initializes the HyperlaneServiceManager contract with the owner address
+     * @notice Initializes the ManifoldServiceManager contract with the owner address
      */
     function initialize(address _owner) public initializer {
         __ServiceManagerBase_init(_owner);
@@ -199,7 +199,7 @@ contract HyperlaneServiceManager is ECDSAServiceManagerBase {
         ].tryGet(address(challenger));
         require(
             exists && enrollment.status == EnrollmentStatus.ENROLLED,
-            "HyperlaneServiceManager: challenger isn't enrolled"
+            "ManifoldServiceManager: challenger isn't enrolled"
         );
 
         enrolledChallengers[msg.sender].set(
@@ -261,7 +261,7 @@ contract HyperlaneServiceManager is ECDSAServiceManagerBase {
                 block.number >=
                 enrollment.unenrollmentStartBlock +
                     challenger.challengeDelayBlocks(),
-            "HyperlaneServiceManager: Invalid unenrollment"
+            "ManifoldServiceManager: Invalid unenrollment"
         );
 
         enrolledChallengers[operator].remove(address(challenger));
