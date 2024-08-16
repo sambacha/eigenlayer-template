@@ -12,11 +12,7 @@ interface ICrossDomainMessenger {
      * @param _message Message to send to the target.
      * @param _gasLimit Gas limit for the provided message.
      */
-    function sendMessage(
-        address _target,
-        bytes calldata _message,
-        uint32 _gasLimit
-    ) external payable;
+    function sendMessage(address _target, bytes calldata _message, uint32 _gasLimit) external payable;
 
     function relayMessage(
         uint256 _nonce,

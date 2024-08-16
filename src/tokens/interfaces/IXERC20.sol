@@ -29,11 +29,7 @@ interface IXERC20 is IERC20 {
      * @param _burningLimit The updated burning limit we are setting to the bridge
      * @param _bridge The address of the bridge we are setting the limits too
      */
-    function setLimits(
-        address _bridge,
-        uint256 _mintingLimit,
-        uint256 _burningLimit
-    ) external;
+    function setLimits(address _bridge, uint256 _mintingLimit, uint256 _burningLimit) external;
 
     function owner() external returns (address);
 
@@ -42,18 +38,14 @@ interface IXERC20 is IERC20 {
      * @param _bridge the bridge we are viewing the limits of
      * @return _limit The limit the bridge has
      */
-    function burningCurrentLimitOf(
-        address _bridge
-    ) external view returns (uint256 _limit);
+    function burningCurrentLimitOf(address _bridge) external view returns (uint256 _limit);
 
     /**
      * @notice Returns the current limit of a bridge
      * @param _bridge the bridge we are viewing the limits of
      * @return _limit The limit the bridge has
      */
-    function mintingCurrentLimitOf(
-        address _bridge
-    ) external view returns (uint256 _limit);
+    function mintingCurrentLimitOf(address _bridge) external view returns (uint256 _limit);
 
     /**
      * @notice Returns the max limit of a minter
@@ -61,9 +53,7 @@ interface IXERC20 is IERC20 {
      * @param _minter The minter we are viewing the limits of
      *  @return _limit The limit the minter has
      */
-    function mintingMaxLimitOf(
-        address _minter
-    ) external view returns (uint256 _limit);
+    function mintingMaxLimitOf(address _minter) external view returns (uint256 _limit);
 
     /**
      * @notice Returns the max limit of a bridge
@@ -71,8 +61,5 @@ interface IXERC20 is IERC20 {
      * @param _bridge the bridge we are viewing the limits of
      * @return _limit The limit the bridge has
      */
-
-    function burningMaxLimitOf(
-        address _bridge
-    ) external view returns (uint256 _limit);
+    function burningMaxLimitOf(address _bridge) external view returns (uint256 _limit);
 }

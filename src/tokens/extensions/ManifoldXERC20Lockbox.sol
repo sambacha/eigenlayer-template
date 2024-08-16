@@ -11,10 +11,9 @@ contract ManifoldXERC20Lockbox is ManifoldERC20Collateral {
     IXERC20Lockbox public immutable lockbox;
     IXERC20 public immutable xERC20;
 
-    constructor(
-        address _lockbox,
-        address _mailbox
-    ) ManifoldERC20Collateral(address(IXERC20Lockbox(_lockbox).ERC20()), _mailbox) {
+    constructor(address _lockbox, address _mailbox)
+        ManifoldERC20Collateral(address(IXERC20Lockbox(_lockbox).ERC20()), _mailbox)
+    {
         lockbox = IXERC20Lockbox(_lockbox);
         xERC20 = lockbox.XERC20();
         approveLockbox();
@@ -26,14 +25,8 @@ contract ManifoldXERC20Lockbox is ManifoldERC20Collateral {
      * @dev This function is idempotent and need not be access controlled
      */
     function approveLockbox() public {
-        require(
-            IERC20(wrappedToken).approve(address(lockbox), MAX_INT),
-            "erc20 lockbox approve failed"
-        );
-        require(
-            xERC20.approve(address(lockbox), MAX_INT),
-            "xerc20 lockbox approve failed"
-        );
+        require(IERC20(wrappedToken).approve(address(lockbox), MAX_INT), "erc20 lockbox approve failed");
+        require(xERC20.approve(address(lockbox), MAX_INT), "xerc20 lockbox approve failed");
     }
 
     /**
@@ -42,18 +35,12 @@ contract ManifoldXERC20Lockbox is ManifoldERC20Collateral {
      * @param _ism The address of the interchain security module
      * @param _owner The address of the owner
      */
-    function initialize(
-        address _hook,
-        address _ism,
-        address _owner
-    ) public override initializer {
+    function initialize(address _hook, address _ism, address _owner) public override initializer {
         approveLockbox();
         _MailboxClient_initialize(_hook, _ism, _owner);
     }
 
-    function _transferFromSender(
-        uint256 _amount
-    ) internal override returns (bytes memory) {
+    function _transferFromSender(uint256 _amount) internal override returns (bytes memory) {
         // transfer erc20 from sender
         super._transferFromSender(_amount);
         // convert erc20 to xERC20
@@ -63,11 +50,7 @@ contract ManifoldXERC20Lockbox is ManifoldERC20Collateral {
         return bytes("");
     }
 
-    function _transferTo(
-        address _recipient,
-        uint256 _amount,
-        bytes calldata /*metadata*/
-    ) internal override {
+    function _transferTo(address _recipient, uint256 _amount, bytes calldata /*metadata*/ ) internal override {
         // mint xERC20
         xERC20.mint(address(this), _amount);
         // convert xERC20 to erc20

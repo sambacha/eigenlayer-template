@@ -6,28 +6,16 @@ import {ManifoldERC20Collateral} from "../ManifoldERC20Collateral.sol";
 
 // see https://github.com/circlefin/stablecoin-evm/blob/master/doc/tokendesign.md#issuing-and-destroying-tokens
 contract ManifoldFiatToken is ManifoldERC20Collateral {
-    constructor(
-        address _fiatToken,
-        address _mailbox
-    ) ManifoldERC20Collateral(_fiatToken, _mailbox) {}
+    constructor(address _fiatToken, address _mailbox) ManifoldERC20Collateral(_fiatToken, _mailbox) {}
 
-    function _transferFromSender(
-        uint256 _amount
-    ) internal override returns (bytes memory metadata) {
+    function _transferFromSender(uint256 _amount) internal override returns (bytes memory metadata) {
         // transfer amount to address(this)
         metadata = super._transferFromSender(_amount);
         // burn amount of address(this) balance
         IFiatToken(address(wrappedToken)).burn(_amount);
     }
 
-    function _transferTo(
-        address _recipient,
-        uint256 _amount,
-        bytes calldata /*metadata*/
-    ) internal override {
-        require(
-            IFiatToken(address(wrappedToken)).mint(_recipient, _amount),
-            "FiatToken mint failed"
-        );
+    function _transferTo(address _recipient, uint256 _amount, bytes calldata /*metadata*/ ) internal override {
+        require(IFiatToken(address(wrappedToken)).mint(_recipient, _amount), "FiatToken mint failed");
     }
 }

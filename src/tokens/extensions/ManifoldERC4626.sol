@@ -21,11 +21,7 @@ contract ManifoldERC4626 is ManifoldERC20 {
     uint32 public immutable collateralDomain;
     uint256 public exchangeRate; // 1e10
 
-    constructor(
-        uint8 _decimals,
-        address _mailbox,
-        uint32 _collateralDomain
-    ) ManifoldERC20(_decimals, _mailbox) {
+    constructor(uint8 _decimals, address _mailbox, uint32 _collateralDomain) ManifoldERC20(_decimals, _mailbox) {
         collateralDomain = _collateralDomain;
         exchangeRate = 1e10;
         _disableInitializers();
@@ -43,28 +39,14 @@ contract ManifoldERC4626 is ManifoldERC20 {
     ) internal virtual override returns (bytes32 messageId) {
         uint256 _shares = assetsToShares(_amountOrId);
         _transferFromSender(_shares);
-        bytes memory _tokenMessage = TokenMessage.format(
-            _recipient,
-            _shares,
-            bytes("")
-        );
+        bytes memory _tokenMessage = TokenMessage.format(_recipient, _shares, bytes(""));
 
-        messageId = _Router_dispatch(
-            _destination,
-            _value,
-            _tokenMessage,
-            _hookMetadata,
-            _hook
-        );
+        messageId = _Router_dispatch(_destination, _value, _tokenMessage, _hookMetadata, _hook);
 
         emit SentTransferRemote(_destination, _recipient, _amountOrId);
     }
 
-    function _handle(
-        uint32 _origin,
-        bytes32 _sender,
-        bytes calldata _message
-    ) internal virtual override {
+    function _handle(uint32 _origin, bytes32 _sender, bytes calldata _message) internal virtual override {
         if (_origin == collateralDomain) {
             exchangeRate = abi.decode(_message.metadata(), (uint256));
         }
@@ -72,10 +54,7 @@ contract ManifoldERC4626 is ManifoldERC20 {
     }
 
     // Override to send shares locally instead of assets
-    function transfer(
-        address to,
-        uint256 amount
-    ) public virtual override returns (bool) {
+    function transfer(address to, uint256 amount) public virtual override returns (bool) {
         address owner = _msgSender();
         _transfer(owner, to, assetsToShares(amount));
         return true;
@@ -85,9 +64,7 @@ contract ManifoldERC4626 is ManifoldERC20 {
         return super.balanceOf(account);
     }
 
-    function balanceOf(
-        address account
-    ) public view virtual override returns (uint256) {
+    function balanceOf(address account) public view virtual override returns (uint256) {
         uint256 _balance = super.balanceOf(account);
         return sharesToAssets(_balance);
     }

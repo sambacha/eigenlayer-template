@@ -13,12 +13,7 @@ interface IMailbox {
      * @param recipient The message recipient address on `destination`
      * @param message Raw bytes of message
      */
-    event Dispatch(
-        address indexed sender,
-        uint32 indexed destination,
-        bytes32 indexed recipient,
-        bytes message
-    );
+    event Dispatch(address indexed sender, uint32 indexed destination, bytes32 indexed recipient, bytes message);
 
     /**
      * @notice Emitted when a new message is dispatched via Manifold Finance AVS
@@ -38,11 +33,7 @@ interface IMailbox {
      * @param sender The message sender address on `origin`
      * @param recipient The address that handled the message
      */
-    event Process(
-        uint32 indexed origin,
-        bytes32 indexed sender,
-        address indexed recipient
-    );
+    event Process(uint32 indexed origin, bytes32 indexed sender, address indexed recipient);
 
     function localDomain() external view returns (uint32);
 
@@ -56,17 +47,15 @@ interface IMailbox {
 
     function latestDispatchedId() external view returns (bytes32);
 
-    function dispatch(
-        uint32 destinationDomain,
-        bytes32 recipientAddress,
-        bytes calldata messageBody
-    ) external payable returns (bytes32 messageId);
+    function dispatch(uint32 destinationDomain, bytes32 recipientAddress, bytes calldata messageBody)
+        external
+        payable
+        returns (bytes32 messageId);
 
-    function quoteDispatch(
-        uint32 destinationDomain,
-        bytes32 recipientAddress,
-        bytes calldata messageBody
-    ) external view returns (uint256 fee);
+    function quoteDispatch(uint32 destinationDomain, bytes32 recipientAddress, bytes calldata messageBody)
+        external
+        view
+        returns (uint256 fee);
 
     function dispatch(
         uint32 destinationDomain,
@@ -98,12 +87,7 @@ interface IMailbox {
         IPostDispatchHook customHook
     ) external view returns (uint256 fee);
 
-    function process(
-        bytes calldata metadata,
-        bytes calldata message
-    ) external payable;
+    function process(bytes calldata metadata, bytes calldata message) external payable;
 
-    function recipientIsm(
-        address recipient
-    ) external view returns (IInterchainSecurityModule module);
+    function recipientIsm(address recipient) external view returns (IInterchainSecurityModule module);
 }

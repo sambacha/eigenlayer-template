@@ -23,14 +23,10 @@ contract ManifoldNative is TokenRouter {
     /**
      * @notice Initializes the Token router
      * @param _hook The post-dispatch hook contract.
-       @param _interchainSecurityModule The interchain security module contract.
-       @param _owner The this contract.
+     *    @param _interchainSecurityModule The interchain security module contract.
+     *    @param _owner The this contract.
      */
-    function initialize(
-        address _hook,
-        address _interchainSecurityModule,
-        address _owner
-    ) public initializer {
+    function initialize(address _hook, address _interchainSecurityModule, address _owner) public initializer {
         _MailboxClient_initialize(_hook, _interchainSecurityModule, _owner);
     }
 
@@ -38,19 +34,19 @@ contract ManifoldNative is TokenRouter {
      * @inheritdoc TokenRouter
      * @dev uses (`msg.value` - `_amount`) as hook payment and `msg.sender` as refund address.
      */
-    function transferRemote(
-        uint32 _destination,
-        bytes32 _recipient,
-        uint256 _amount
-    ) external payable virtual override returns (bytes32 messageId) {
+    function transferRemote(uint32 _destination, bytes32 _recipient, uint256 _amount)
+        external
+        payable
+        virtual
+        override
+        returns (bytes32 messageId)
+    {
         require(msg.value >= _amount, "Native: amount exceeds msg.value");
         uint256 _hookPayment = msg.value - _amount;
         return _transferRemote(_destination, _recipient, _amount, _hookPayment);
     }
 
-    function balanceOf(
-        address _account
-    ) external view override returns (uint256) {
+    function balanceOf(address _account) external view override returns (uint256) {
         return _account.balance;
     }
 
@@ -59,9 +55,7 @@ contract ManifoldNative is TokenRouter {
      * @dev No-op because native amount is transferred in `msg.value`
      * @dev Compiler will not include this in the bytecode.
      */
-    function _transferFromSender(
-        uint256
-    ) internal pure override returns (bytes memory) {
+    function _transferFromSender(uint256) internal pure override returns (bytes memory) {
         return bytes(""); // no metadata
     }
 

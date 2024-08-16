@@ -5,25 +5,16 @@ import {IXERC20} from "../interfaces/IXERC20.sol";
 import {ManifoldERC20Collateral} from "../ManifoldERC20Collateral.sol";
 
 contract ManifoldXERC20 is ManifoldERC20Collateral {
-    constructor(
-        address _xerc20,
-        address _mailbox
-    ) ManifoldERC20Collateral(_xerc20, _mailbox) {
+    constructor(address _xerc20, address _mailbox) ManifoldERC20Collateral(_xerc20, _mailbox) {
         _disableInitializers();
     }
 
-    function _transferFromSender(
-        uint256 _amountOrId
-    ) internal override returns (bytes memory metadata) {
+    function _transferFromSender(uint256 _amountOrId) internal override returns (bytes memory metadata) {
         IXERC20(address(wrappedToken)).burn(msg.sender, _amountOrId);
         return "";
     }
 
-    function _transferTo(
-        address _recipient,
-        uint256 _amountOrId,
-        bytes calldata /*metadata*/
-    ) internal override {
+    function _transferTo(address _recipient, uint256 _amountOrId, bytes calldata /*metadata*/ ) internal override {
         IXERC20(address(wrappedToken)).mint(_recipient, _amountOrId);
     }
 }

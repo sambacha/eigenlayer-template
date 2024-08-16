@@ -10,13 +10,7 @@ interface ICcipReadIsm is IInterchainSecurityModule {
     /// @param callData context needed for offchain service to service request
     /// @param callbackFunction function selector to call with offchain information
     /// @param extraData additional passthrough information to call callbackFunction with
-    error OffchainLookup(
-        address sender,
-        string[] urls,
-        bytes callData,
-        bytes4 callbackFunction,
-        bytes extraData
-    );
+    error OffchainLookup(address sender, string[] urls, bytes callData, bytes4 callbackFunction, bytes extraData);
 
     /**
      * @notice Reverts with the data needed to query information offchain

@@ -18,21 +18,13 @@ contract ManifoldERC4626Collateral is ManifoldERC20Collateral {
     // Address of the ERC4626 compatible vault
     ERC4626 public immutable vault;
     uint256 public constant PRECISION = 1e10;
-    bytes32 public constant NULL_RECIPIENT =
-        0x0000000000000000000000000000000000000000000000000000000000000001;
+    bytes32 public constant NULL_RECIPIENT = 0x0000000000000000000000000000000000000000000000000000000000000001;
 
-    constructor(
-        ERC4626 _vault,
-        address _mailbox
-    ) ManifoldERC20Collateral(_vault.asset(), _mailbox) {
+    constructor(ERC4626 _vault, address _mailbox) ManifoldERC20Collateral(_vault.asset(), _mailbox) {
         vault = _vault;
     }
 
-    function initialize(
-        address _hook,
-        address _interchainSecurityModule,
-        address _owner
-    ) public override initializer {
+    function initialize(address _hook, address _interchainSecurityModule, address _owner) public override initializer {
         _MailboxClient_initialize(_hook, _interchainSecurityModule, _owner);
     }
 
@@ -47,26 +39,12 @@ contract ManifoldERC4626Collateral is ManifoldERC20Collateral {
         // Can't override _transferFromSender only because we need to pass shares in the token message
         _transferFromSender(_amount);
         uint256 _shares = _depositIntoVault(_amount);
-        uint256 _exchangeRate = PRECISION.mulDiv(
-            vault.totalAssets(),
-            vault.totalSupply(),
-            Math.Rounding.Down
-        );
+        uint256 _exchangeRate = PRECISION.mulDiv(vault.totalAssets(), vault.totalSupply(), Math.Rounding.Down);
         bytes memory _tokenMetadata = abi.encode(_exchangeRate);
 
-        bytes memory _tokenMessage = TokenMessage.format(
-            _recipient,
-            _shares,
-            _tokenMetadata
-        );
+        bytes memory _tokenMessage = TokenMessage.format(_recipient, _shares, _tokenMetadata);
 
-        messageId = _Router_dispatch(
-            _destination,
-            _value,
-            _tokenMessage,
-            _hookMetadata,
-            _hook
-        );
+        messageId = _Router_dispatch(_destination, _value, _tokenMessage, _hookMetadata, _hook);
 
         emit SentTransferRemote(_destination, _recipient, _shares);
     }
@@ -84,11 +62,7 @@ contract ManifoldERC4626Collateral is ManifoldERC20Collateral {
      * @dev Transfers `_amount` of `wrappedToken` from this contract to `_recipient`, and withdraws from vault
      * @inheritdoc ManifoldERC20Collateral
      */
-    function _transferTo(
-        address _recipient,
-        uint256 _amount,
-        bytes calldata
-    ) internal virtual override {
+    function _transferTo(address _recipient, uint256 _amount, bytes calldata) internal virtual override {
         // withdraw with the specified amount of shares
         vault.redeem(_amount, _recipient, address(this));
     }
@@ -99,13 +73,6 @@ contract ManifoldERC4626Collateral is ManifoldERC20Collateral {
      */
     function rebase(uint32 _destinationDomain) public payable {
         // force a rebase with an empty transfer to 0x1
-        _transferRemote(
-            _destinationDomain,
-            NULL_RECIPIENT,
-            0,
-            msg.value,
-            bytes(""),
-            address(0)
-        );
+        _transferRemote(_destinationDomain, NULL_RECIPIENT, 0, msg.value, bytes(""), address(0));
     }
 }

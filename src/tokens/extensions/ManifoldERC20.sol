@@ -13,20 +13,17 @@ import {ERC20Upgradeable} from "@openzeppelin/contracts-upgradeable/token/ERC20/
  * @dev Supply on each chain is not constant but the aggregate supply across all chains is.
  */
 contract FastManifoldERC20 is FastTokenRouter, ManifoldERC20 {
-    constructor(
-        uint8 __decimals,
-        address _mailbox
-    ) ManifoldERC20(__decimals, _mailbox) {}
+    constructor(uint8 __decimals, address _mailbox) ManifoldERC20(__decimals, _mailbox) {}
 
     /**
      * @dev delegates transfer logic to `_transferTo`.
      * @inheritdoc TokenRouter
      */
-    function _handle(
-        uint32 _origin,
-        bytes32 _sender,
-        bytes calldata _message
-    ) internal virtual override(FastTokenRouter, TokenRouter) {
+    function _handle(uint32 _origin, bytes32 _sender, bytes calldata _message)
+        internal
+        virtual
+        override(FastTokenRouter, TokenRouter)
+    {
         FastTokenRouter._handle(_origin, _sender, _message);
     }
 
@@ -34,10 +31,7 @@ contract FastManifoldERC20 is FastTokenRouter, ManifoldERC20 {
      * @dev Mints `_amount` of tokens to `_recipient`.
      * @inheritdoc FastTokenRouter
      */
-    function _fastTransferTo(
-        address _recipient,
-        uint256 _amount
-    ) internal override {
+    function _fastTransferTo(address _recipient, uint256 _amount) internal override {
         _mint(_recipient, _amount);
     }
 
@@ -45,16 +39,11 @@ contract FastManifoldERC20 is FastTokenRouter, ManifoldERC20 {
      * @dev Burns `_amount` of tokens from `_recipient`.
      * @inheritdoc FastTokenRouter
      */
-    function _fastRecieveFrom(
-        address _sender,
-        uint256 _amount
-    ) internal override {
+    function _fastRecieveFrom(address _sender, uint256 _amount) internal override {
         _burn(_sender, _amount);
     }
 
-    function balanceOf(
-        address _account
-    ) public view virtual override(ManifoldERC20, TokenRouter) returns (uint256) {
+    function balanceOf(address _account) public view virtual override(ManifoldERC20, TokenRouter) returns (uint256) {
         return ERC20Upgradeable.balanceOf(_account);
     }
 }

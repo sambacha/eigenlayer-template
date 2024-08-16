@@ -17,18 +17,11 @@ contract ManifoldERC4626OwnerCollateral is ManifoldERC20Collateral {
 
     event ExcessSharesSwept(uint256 amount, uint256 assetsRedeemed);
 
-    constructor(
-        ERC4626 _vault,
-        address _mailbox
-    ) ManifoldERC20Collateral(_vault.asset(), _mailbox) {
+    constructor(ERC4626 _vault, address _mailbox) ManifoldERC20Collateral(_vault.asset(), _mailbox) {
         vault = _vault;
     }
 
-    function initialize(
-        address _hook,
-        address _interchainSecurityModule,
-        address _owner
-    ) public override initializer {
+    function initialize(address _hook, address _interchainSecurityModule, address _owner) public override initializer {
         wrappedToken.approve(address(vault), type(uint256).max);
         _MailboxClient_initialize(_hook, _interchainSecurityModule, _owner);
     }
@@ -37,9 +30,7 @@ contract ManifoldERC4626OwnerCollateral is ManifoldERC20Collateral {
      * @dev Transfers `_amount` of `wrappedToken` from `msg.sender` to this contract, and deposit into vault
      * @inheritdoc ManifoldERC20Collateral
      */
-    function _transferFromSender(
-        uint256 _amount
-    ) internal override returns (bytes memory metadata) {
+    function _transferFromSender(uint256 _amount) internal override returns (bytes memory metadata) {
         metadata = super._transferFromSender(_amount);
         _depositIntoVault(_amount);
     }
@@ -57,11 +48,7 @@ contract ManifoldERC4626OwnerCollateral is ManifoldERC20Collateral {
      * @dev Transfers `_amount` of `wrappedToken` from this contract to `_recipient`, and withdraws from vault
      * @inheritdoc ManifoldERC20Collateral
      */
-    function _transferTo(
-        address _recipient,
-        uint256 _amount,
-        bytes calldata
-    ) internal virtual override {
+    function _transferTo(address _recipient, uint256 _amount, bytes calldata) internal virtual override {
         _withdrawFromVault(_amount, _recipient);
     }
 
@@ -79,13 +66,8 @@ contract ManifoldERC4626OwnerCollateral is ManifoldERC20Collateral {
      * @notice Allows the owner to redeem excess shares
      */
     function sweep() external onlyOwner {
-        uint256 excessShares = vault.maxRedeem(address(this)) -
-            vault.convertToShares(assetDeposited);
-        uint256 assetsRedeemed = vault.redeem(
-            excessShares,
-            owner(),
-            address(this)
-        );
+        uint256 excessShares = vault.maxRedeem(address(this)) - vault.convertToShares(assetDeposited);
+        uint256 assetsRedeemed = vault.redeem(excessShares, owner(), address(this));
         emit ExcessSharesSwept(excessShares, assetsRedeemed);
     }
 }
