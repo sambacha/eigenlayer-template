@@ -47,9 +47,7 @@ interface IServiceManagerUI {
      * @dev No guarantee is made on whether the operator has shares for a strategy in a quorum or uniqueness
      *      of each element in the returned array. The off-chain service should do that validation separately
      */
-    function getOperatorRestakedStrategies(
-        address operator
-    ) external view returns (address[] memory);
+    function getOperatorRestakedStrategies(address operator) external view returns (address[] memory);
 
     /**
      * @notice Returns the list of strategies that the AVS supports for restaking
@@ -57,10 +55,7 @@ interface IServiceManagerUI {
      * @dev No guarantee is made on uniqueness of each element in the returned array.
      *      The off-chain service should do that validation separately
      */
-    function getRestakeableStrategies()
-        external
-        view
-        returns (address[] memory);
+    function getRestakeableStrategies() external view returns (address[] memory);
 
     /// @notice Returns the EigenLayer AVSDirectory contract.
     function avsDirectory() external view returns (address);

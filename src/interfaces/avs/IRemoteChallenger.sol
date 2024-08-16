@@ -1,7 +1,6 @@
 // SPDX-License-Identifier: MIT OR Apache-2.0
 pragma solidity >=0.8.0;
 
-
 interface IRemoteChallenger {
     /// @notice Returns the number of blocks that must be mined before a challenge can be handled
     /// @return The number of blocks that must be mined before a challenge can be handled

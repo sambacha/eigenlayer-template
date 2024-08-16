@@ -36,20 +36,13 @@ interface IECDSAStakeRegistryEventsAndErrors {
     /// @notice Emitted when the weight required to be an operator changes
     /// @param oldMinimumWeight The previous weight
     /// @param newMinimumWeight The updated weight
-    event UpdateMinimumWeight(
-        uint256 oldMinimumWeight,
-        uint256 newMinimumWeight
-    );
+    event UpdateMinimumWeight(uint256 oldMinimumWeight, uint256 newMinimumWeight);
 
     /// @notice Emitted when the system updates an operator's weight
     /// @param _operator The address of the operator updated
     /// @param oldWeight The operator's weight before the update
     /// @param newWeight The operator's weight after the update
-    event OperatorWeightUpdated(
-        address indexed _operator,
-        uint256 oldWeight,
-        uint256 newWeight
-    );
+    event OperatorWeightUpdated(address indexed _operator, uint256 oldWeight, uint256 newWeight);
 
     /// @notice Emitted when the system updates the total weight
     /// @param oldTotalWeight The total weight before the update
@@ -65,10 +58,7 @@ interface IECDSAStakeRegistryEventsAndErrors {
     /// @param newSigningKey The operator's signing key after the update
     /// @param oldSigningKey The operator's signing key before the update
     event SigningKeyUpdate(
-        address indexed operator,
-        uint256 indexed updateBlock,
-        address indexed newSigningKey,
-        address oldSigningKey
+        address indexed operator, uint256 indexed updateBlock, address indexed newSigningKey, address oldSigningKey
     );
     /// @notice Indicates when the lengths of the signers array and signatures array do not match.
 
