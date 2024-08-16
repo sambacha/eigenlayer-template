@@ -2,8 +2,8 @@
 pragma solidity >=0.6.11;
 
 // ============ External Imports ============
-import "@openzeppelin/contracts/utils/structs/EnumerableMap.sol";
-import "@openzeppelin/contracts/utils/structs/EnumerableSet.sol";
+import "./EnumerableMap.sol";
+import "./EnumerableSet.sol";
 // ============ Internal Imports ============
 import {TypeCasts} from "./TypeCasts.sol";
 
