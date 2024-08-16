@@ -15,10 +15,7 @@ import {ECDSAStakeRegistry} from "./ECDSAStakeRegistry.sol";
 import {OwnableUpgradeable} from "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol";
 
 /// @author Layr Labs, Inc.
-abstract contract ECDSAServiceManagerBase is
-    IServiceManager,
-    OwnableUpgradeable
-{
+abstract contract ECDSAServiceManagerBase is IServiceManager, OwnableUpgradeable {
     /// @notice Address of the stake registry contract, which manages registration and stake recording.
     address public immutable stakeRegistry;
 
@@ -41,8 +38,7 @@ abstract contract ECDSAServiceManagerBase is
      */
     modifier onlyStakeRegistry() {
         require(
-            msg.sender == stakeRegistry,
-            "ECDSAServiceManagerBase.onlyStakeRegistry: caller is not the stakeRegistry"
+            msg.sender == stakeRegistry, "ECDSAServiceManagerBase.onlyStakeRegistry: caller is not the stakeRegistry"
         );
         _;
     }
@@ -86,23 +82,17 @@ abstract contract ECDSAServiceManagerBase is
      * @dev Initializes the base service manager by transferring ownership to the initial owner.
      * @param initialOwner The address to which the ownership of the contract will be transferred.
      */
-    function __ServiceManagerBase_init(
-        address initialOwner
-    ) internal virtual onlyInitializing {
+    function __ServiceManagerBase_init(address initialOwner) internal virtual onlyInitializing {
         _transferOwnership(initialOwner);
     }
 
     /// @inheritdoc IServiceManagerUI
-    function updateAVSMetadataURI(
-        string memory _metadataURI
-    ) external virtual onlyOwner {
+    function updateAVSMetadataURI(string memory _metadataURI) external virtual onlyOwner {
         _updateAVSMetadataURI(_metadataURI);
     }
 
     /// @inheritdoc IServiceManager
-    function payForRange(
-        IPaymentCoordinator.RangePayment[] calldata rangePayments
-    ) external virtual onlyOwner {
+    function payForRange(IPaymentCoordinator.RangePayment[] calldata rangePayments) external virtual onlyOwner {
         _payForRange(rangePayments);
     }
 
@@ -115,26 +105,17 @@ abstract contract ECDSAServiceManagerBase is
     }
 
     /// @inheritdoc IServiceManagerUI
-    function deregisterOperatorFromAVS(
-        address operator
-    ) external virtual onlyStakeRegistry {
+    function deregisterOperatorFromAVS(address operator) external virtual onlyStakeRegistry {
         _deregisterOperatorFromAVS(operator);
     }
 
     /// @inheritdoc IServiceManagerUI
-    function getRestakeableStrategies()
-        external
-        view
-        virtual
-        returns (address[] memory)
-    {
+    function getRestakeableStrategies() external view virtual returns (address[] memory) {
         return _getRestakeableStrategies();
     }
 
     /// @inheritdoc IServiceManagerUI
-    function getOperatorRestakedStrategies(
-        address _operator
-    ) external view virtual returns (address[] memory) {
+    function getOperatorRestakedStrategies(address _operator) external view virtual returns (address[] memory) {
         return _getOperatorRestakedStrategies(_operator);
     }
 
@@ -143,9 +124,7 @@ abstract contract ECDSAServiceManagerBase is
      * @dev This function is only callable by the contract owner.
      * @param _paymentCoordinator The address of the payment coordinator contract.
      */
-    function setPaymentCoordinator(
-        address _paymentCoordinator
-    ) external virtual onlyOwner {
+    function setPaymentCoordinator(address _paymentCoordinator) external virtual onlyOwner {
         paymentCoordinator = _paymentCoordinator;
     }
 
@@ -154,9 +133,7 @@ abstract contract ECDSAServiceManagerBase is
      * @dev This internal function is a proxy to the `updateAVSMetadataURI` function of the AVSDirectory contract.
      * @param _metadataURI The new metadata URI to be set.
      */
-    function _updateAVSMetadataURI(
-        string memory _metadataURI
-    ) internal virtual {
+    function _updateAVSMetadataURI(string memory _metadataURI) internal virtual {
         IAVSDirectory(avsDirectory).updateAVSMetadataURI(_metadataURI);
     }
 
@@ -170,10 +147,7 @@ abstract contract ECDSAServiceManagerBase is
         address operator,
         ISignatureUtils.SignatureWithSaltAndExpiry memory operatorSignature
     ) internal virtual {
-        IAVSDirectory(avsDirectory).registerOperatorToAVS(
-            operator,
-            operatorSignature
-        );
+        IAVSDirectory(avsDirectory).registerOperatorToAVS(operator, operatorSignature);
         emit OperatorRegisteredToAVS(operator);
     }
 
@@ -192,19 +166,10 @@ abstract contract ECDSAServiceManagerBase is
      * @dev This function handles the transfer and approval of tokens necessary for range payments. It then delegates the actual payment logic to the PaymentCoordinator contract.
      * @param rangePayments An array of `RangePayment` structs, each representing a payment for a specific range.
      */
-    function _payForRange(
-        IPaymentCoordinator.RangePayment[] calldata rangePayments
-    ) internal virtual {
+    function _payForRange(IPaymentCoordinator.RangePayment[] calldata rangePayments) internal virtual {
         for (uint256 i = 0; i < rangePayments.length; ++i) {
-            rangePayments[i].token.transferFrom(
-                msg.sender,
-                address(this),
-                rangePayments[i].amount
-            );
-            rangePayments[i].token.approve(
-                paymentCoordinator,
-                rangePayments[i].amount
-            );
+            rangePayments[i].token.transferFrom(msg.sender, address(this), rangePayments[i].amount);
+            rangePayments[i].token.approve(paymentCoordinator, rangePayments[i].amount);
         }
 
         IPaymentCoordinator(paymentCoordinator).payForRange(rangePayments);
@@ -215,12 +180,7 @@ abstract contract ECDSAServiceManagerBase is
      * @dev Fetches the quorum configuration from the ECDSAStakeRegistry and extracts the strategy addresses.
      * @return strategies An array of addresses representing the strategies in the current quorum.
      */
-    function _getRestakeableStrategies()
-        internal
-        view
-        virtual
-        returns (address[] memory)
-    {
+    function _getRestakeableStrategies() internal view virtual returns (address[] memory) {
         Quorum memory quorum = ECDSAStakeRegistry(stakeRegistry).quorum();
         address[] memory strategies = new address[](quorum.strategies.length);
         for (uint256 i = 0; i < quorum.strategies.length; i++) {
@@ -236,17 +196,14 @@ abstract contract ECDSAServiceManagerBase is
      * @param _operator The address of the operator whose restaked strategies are to be retrieved.
      * @return restakedStrategies An array of addresses of strategies where the operator has active restakes.
      */
-    function _getOperatorRestakedStrategies(
-        address _operator
-    ) internal view virtual returns (address[] memory) {
+    function _getOperatorRestakedStrategies(address _operator) internal view virtual returns (address[] memory) {
         Quorum memory quorum = ECDSAStakeRegistry(stakeRegistry).quorum();
         uint256 count = quorum.strategies.length;
         IStrategy[] memory strategies = new IStrategy[](count);
         for (uint256 i; i < count; i++) {
             strategies[i] = quorum.strategies[i].strategy;
         }
-        uint256[] memory shares = IDelegationManager(delegationManager)
-            .getOperatorShares(_operator, strategies);
+        uint256[] memory shares = IDelegationManager(delegationManager).getOperatorShares(_operator, strategies);
 
         address[] memory activeStrategies = new address[](count);
         uint256 activeCount;

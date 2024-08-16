@@ -32,16 +32,8 @@ library EnumerableMapEnrollment {
 
     // ============ Library Functions ============
 
-    function encode(
-        Enrollment memory enrollment
-    ) public pure returns (bytes32) {
-        return
-            bytes32(
-                abi.encodePacked(
-                    uint8(enrollment.status),
-                    enrollment.unenrollmentStartBlock
-                )
-            );
+    function encode(Enrollment memory enrollment) public pure returns (bytes32) {
+        return bytes32(abi.encodePacked(uint8(enrollment.status), enrollment.unenrollmentStartBlock));
     }
 
     function decode(bytes32 encoded) public pure returns (Enrollment memory) {
@@ -50,9 +42,7 @@ library EnumerableMapEnrollment {
         return Enrollment(EnrollmentStatus(status), unenrollmentStartBlock);
     }
 
-    function keys(
-        AddressToEnrollmentMap storage map
-    ) internal view returns (address[] memory _keys) {
+    function keys(AddressToEnrollmentMap storage map) internal view returns (address[] memory _keys) {
         uint256 _length = map._inner.length();
         _keys = new address[](_length);
         for (uint256 i = 0; i < _length; i++) {
@@ -60,55 +50,32 @@ library EnumerableMapEnrollment {
         }
     }
 
-    function set(
-        AddressToEnrollmentMap storage map,
-        address key,
-        Enrollment memory value
-    ) internal returns (bool) {
+    function set(AddressToEnrollmentMap storage map, address key, Enrollment memory value) internal returns (bool) {
         return map._inner.set(key.addressToBytes32(), encode(value));
     }
 
-    function get(
-        AddressToEnrollmentMap storage map,
-        address key
-    ) internal view returns (Enrollment memory) {
+    function get(AddressToEnrollmentMap storage map, address key) internal view returns (Enrollment memory) {
         return decode(map._inner.get(key.addressToBytes32()));
     }
 
-    function tryGet(
-        AddressToEnrollmentMap storage map,
-        address key
-    ) internal view returns (bool, Enrollment memory) {
-        (bool success, bytes32 value) = map._inner.tryGet(
-            key.addressToBytes32()
-        );
+    function tryGet(AddressToEnrollmentMap storage map, address key) internal view returns (bool, Enrollment memory) {
+        (bool success, bytes32 value) = map._inner.tryGet(key.addressToBytes32());
         return (success, decode(value));
     }
 
-    function remove(
-        AddressToEnrollmentMap storage map,
-        address key
-    ) internal returns (bool) {
+    function remove(AddressToEnrollmentMap storage map, address key) internal returns (bool) {
         return map._inner.remove(key.addressToBytes32());
     }
 
-    function contains(
-        AddressToEnrollmentMap storage map,
-        address key
-    ) internal view returns (bool) {
+    function contains(AddressToEnrollmentMap storage map, address key) internal view returns (bool) {
         return map._inner.contains(key.addressToBytes32());
     }
 
-    function length(
-        AddressToEnrollmentMap storage map
-    ) internal view returns (uint256) {
+    function length(AddressToEnrollmentMap storage map) internal view returns (uint256) {
         return map._inner.length();
     }
 
-    function at(
-        AddressToEnrollmentMap storage map,
-        uint256 index
-    ) internal view returns (uint256, Enrollment memory) {
+    function at(AddressToEnrollmentMap storage map, uint256 index) internal view returns (uint256, Enrollment memory) {
         (bytes32 key, bytes32 value) = map._inner.at(index);
         return (uint256(key), decode(value));
     }

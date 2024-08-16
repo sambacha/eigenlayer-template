@@ -28,11 +28,7 @@ interface IStrategy {
      * @dev This function is only callable by the strategyManager contract. It is invoked inside of the strategyManager's
      * other functions, and individual share balances are recorded in the strategyManager as well.
      */
-    function withdraw(
-        address recipient,
-        IERC20 token,
-        uint256 amountShares
-    ) external;
+    function withdraw(address recipient, IERC20 token, uint256 amountShares) external;
 
     /**
      * @notice Used to convert a number of shares to the equivalent amount of underlying tokens for this strategy.
@@ -41,9 +37,7 @@ interface IStrategy {
      * @return The amount of underlying tokens corresponding to the input `amountShares`
      * @dev Implementation for these functions in particular may vary significantly for different strategies
      */
-    function sharesToUnderlying(
-        uint256 amountShares
-    ) external returns (uint256);
+    function sharesToUnderlying(uint256 amountShares) external returns (uint256);
 
     /**
      * @notice Used to convert an amount of underlying tokens to the equivalent amount of shares in this strategy.
@@ -52,9 +46,7 @@ interface IStrategy {
      * @return The amount of underlying tokens corresponding to the input `amountShares`
      * @dev Implementation for these functions in particular may vary significantly for different strategies
      */
-    function underlyingToShares(
-        uint256 amountUnderlying
-    ) external returns (uint256);
+    function underlyingToShares(uint256 amountUnderlying) external returns (uint256);
 
     /**
      * @notice convenience function for fetching the current underlying value of all of the `user`'s shares in
@@ -75,9 +67,7 @@ interface IStrategy {
      * @return The amount of shares corresponding to the input `amountUnderlying`
      * @dev Implementation for these functions in particular may vary significantly for different strategies
      */
-    function sharesToUnderlyingView(
-        uint256 amountShares
-    ) external view returns (uint256);
+    function sharesToUnderlyingView(uint256 amountShares) external view returns (uint256);
 
     /**
      * @notice Used to convert an amount of underlying tokens to the equivalent amount of shares in this strategy.
@@ -86,9 +76,7 @@ interface IStrategy {
      * @return The amount of shares corresponding to the input `amountUnderlying`
      * @dev Implementation for these functions in particular may vary significantly for different strategies
      */
-    function underlyingToSharesView(
-        uint256 amountUnderlying
-    ) external view returns (uint256);
+    function underlyingToSharesView(uint256 amountUnderlying) external view returns (uint256);
 
     /**
      * @notice convenience function for fetching the current underlying value of all of the `user`'s shares in
